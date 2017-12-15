@@ -8,13 +8,10 @@
 </head>
 <body>
 <%
-	String book_title = (String)request.getAttribute("book_title");	
+	String title = (String)request.getAttribute("book_title");
 %>
-	
 <%=
-	"Book Title: " + book_title
+	"Book Title: " + title
 %>
-
-
 </body>
 </html>

@@ -2,7 +2,9 @@ package com.pluralsight;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,13 +31,17 @@ public class ControllerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter();
+//		PrintWriter out = response.getWriter();
+//		
+//		String title = request.getParameter("booktitle");
+//		String author = request.getParameter("bookauthor");
+//		
+//		out.println("Book Title: " + title);
+//		out.println("Book Author: " + author);
 		
-		String title = request.getParameter("booktitle");
-		String author = request.getParameter("bookauthor");
-		
-		out.println("Book Title: " + title);
-		out.println("Book Author: " + author);
+		request.setAttribute("book_title", "1984");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("BookList.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	/**
