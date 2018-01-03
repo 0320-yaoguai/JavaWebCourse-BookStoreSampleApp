@@ -21,7 +21,7 @@
   <input type="text" name="bookauthor" value="">
   <br>
   Price:<br>
-  <input type="text" name="bookauthor" value="">
+  <input type="text" name="bookprice" value="">
   <br><br>
   <input type="submit" value="Submit">
 </form>

@@ -17,15 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Book> books = new ArrayList<Book>();    
-	
+    private ArrayList<Book> books = new ArrayList<Book>();
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ControllerServlet() {
         super();
         
-        // Add books to ArrayList
+        // Add books to our ArrayList
         books.add(new Book("To Kill a Mockingbird", "Harper Lee", 5.00f));
 		books.add(new Book("1984", "George Orwell", 5.00f));
 		books.add(new Book("Frankenstein", "author", 5.00f));
@@ -36,18 +35,29 @@ public class ControllerServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter();
+		String action = request.getServletPath();
 		
-//		String title = request.getParameter("booktitle");
-//		String author = request.getParameter("bookauthor");
-//		
-//		out.println("Book Title: " + title);
-//		out.println("Book Author: " + author);
-		
-		request.setAttribute("books", books);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BookList.jsp");
-        dispatcher.forward(request, response);
+		if (action.equals("/new")) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("BookForm.jsp");
+			dispatcher.forward(request, response);
+		}
+		else if (action.equals("/insert")) {
+			String title = request.getParameter("booktitle");
+			String author = request.getParameter("bookauthor");
+			String priceString = request.getParameter("bookprice");
+			
+			Book newBook = new Book(title, author, Float.parseFloat(priceString));
+			books.add(newBook);
+			
+			request.setAttribute("books", books);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("BookList.jsp");
+			dispatcher.forward(request, response);
+		}
+		else {
+			request.setAttribute("books", books);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("BookList.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 
 	/**
