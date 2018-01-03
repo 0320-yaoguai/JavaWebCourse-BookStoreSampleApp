@@ -9,7 +9,7 @@
 
 <servlet-mapping>
 	<servlet-name>ControllerServlet</servlet-name>
-	<url-pattern>/ControllerServlet</url-pattern>
+	<url-pattern>/</url-pattern>
 </servlet-mapping>
   
   

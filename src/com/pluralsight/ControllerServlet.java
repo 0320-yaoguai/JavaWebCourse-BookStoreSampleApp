@@ -17,13 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private ArrayList<Book> books = new ArrayList<Book>();    
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ControllerServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        
+        // Add books to ArrayList
+        books.add(new Book("To Kill a Mockingbird", "Harper Lee", 5.00f));
+		books.add(new Book("1984", "George Orwell", 5.00f));
+		books.add(new Book("Frankenstein", "author", 5.00f));
+		books.add(new Book("Gone With the Wind", "author", 5.00f));
     }
 
 	/**
@@ -31,17 +37,17 @@ public class ControllerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		PrintWriter out = response.getWriter();
-//		
+		PrintWriter out = response.getWriter();
+		
 //		String title = request.getParameter("booktitle");
 //		String author = request.getParameter("bookauthor");
 //		
 //		out.println("Book Title: " + title);
 //		out.println("Book Author: " + author);
 		
-		request.setAttribute("book_title", "1984");
+		request.setAttribute("books", books);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("BookList.jsp");
-		dispatcher.forward(request, response);
+        dispatcher.forward(request, response);
 	}
 
 	/**
