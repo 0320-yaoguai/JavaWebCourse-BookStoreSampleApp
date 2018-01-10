@@ -89,7 +89,7 @@ public class ControllerServlet extends HttpServlet {
 	}
 	
 	private void insertBook(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, ClassNotFoundException, SQLException {
 		String title = request.getParameter("booktitle");
 		String author = request.getParameter("bookauthor");
 		String priceString = request.getParameter("bookprice");
@@ -97,9 +97,8 @@ public class ControllerServlet extends HttpServlet {
 		Book newBook = new Book(title, author, Float.parseFloat(priceString));
 		books.add(newBook);
 		
-		request.setAttribute("books", books);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BookList.jsp");
-		dispatcher.forward(request, response);
+		bookDAO.insertBook(newBook);
+		response.sendRedirect("list");
 	}
 
 	/**

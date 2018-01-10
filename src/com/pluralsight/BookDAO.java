@@ -3,6 +3,7 @@ package com.pluralsight;
 import java.awt.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -62,6 +63,21 @@ public class BookDAO {
         disconnect();
          
         return listBook;
+    }
+    
+    public boolean insertBook(Book book) throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO book (title, author, price) VALUES (?, ?, ?)";
+        connect();
+         
+        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+        statement.setString(1, book.getTitle());
+        statement.setString(2, book.getAuthor());
+        statement.setFloat(3, book.getPrice());
+         
+        boolean rowInserted = statement.executeUpdate() > 0;
+        statement.close();
+        disconnect();
+        return rowInserted;
     }
 
 }
