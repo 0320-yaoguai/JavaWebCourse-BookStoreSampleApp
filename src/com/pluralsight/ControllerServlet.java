@@ -18,36 +18,31 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ArrayList<Book> books = new ArrayList<Book>();
-    private BookDAO bookDAO; 
+    private BookDAO bookDAO;
+    
     /**
      * @see HttpServlet#HttpServlet()
      */
     
     public void init() {
     		bookDAO = new BookDAO();
+    		
     		try {
-				bookDAO.connect();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-    		try {
-				bookDAO.disconnect();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			bookDAO.connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			bookDAO.disconnect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public ControllerServlet() {
         super();
-        
-        // Add books to our ArrayList
-        books.add(new Book("To Kill a Mockingbird", "Harper Lee", 5.00f));
-		books.add(new Book("1984", "George Orwell", 5.00f));
-		books.add(new Book("Frankenstein", "author", 5.00f));
-		books.add(new Book("Gone With the Wind", "author", 5.00f));
     }
 
 	/**
@@ -56,12 +51,17 @@ public class ControllerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException  {
 		String action = request.getServletPath();
+		String info = request.getPathInfo();
+		PrintWriter output = response.getWriter();
+		output.println("action = " + action + ", info = " + info);
+		
+		
 		
 		try {
-			if (action.equals("/new")) {
+			if (info.equals("/new")) {
 				addBook(request, response);
 			}
-			else if (action.equals("/insert")) {
+			else if (info.equals("/insert")) {
 				insertBook(request, response);
 			}
 			else {
@@ -71,35 +71,36 @@ public class ControllerServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 	private void listBooks(HttpServletRequest request, HttpServletResponse response) 
 			throws ClassNotFoundException, SQLException, ServletException, IOException {
-		ArrayList<Book> books_list = bookDAO.listAllBooks();
+		ArrayList<Book> bookList = bookDAO.listAllBooks();
 		
-		request.setAttribute("books", books_list);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BookList.jsp");
+		request.setAttribute("books", bookList);
+		//Missing leading forward slash caused infinite loop issues with the * wildcard in web.xml
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookList.jsp");
 		dispatcher.forward(request, response);
 	}
 	
 	private void addBook(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BookForm.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookForm.jsp");
 		dispatcher.forward(request, response);
 	}
 	
 	private void insertBook(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, SQLException {
 		String title = request.getParameter("booktitle");
 		String author = request.getParameter("bookauthor");
 		String priceString = request.getParameter("bookprice");
 		
 		Book newBook = new Book(title, author, Float.parseFloat(priceString));
-		books.add(newBook);
 		
-		request.setAttribute("books", books);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BookList.jsp");
-		dispatcher.forward(request, response);
+		bookDAO.insertBook(newBook);
+		
+		response.sendRedirect("list");
 	}
 
 	/**

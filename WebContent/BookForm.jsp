@@ -5,25 +5,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-<center>
-        <h1><a href="/BookStore/list">Book Store</a></h1>
-        <h2><a href="/BookStore/new">Add New Book</a></h2>
-    </center>
+<div class="container">
+	<div id="links">
+        <h1><a href="list">Book Store</a></h1>
+	    <h2><a href="new">Add New Book</a></h2>
+    </div>
             
-            
-<form name="book_form" method="post" action="/BookStore/insert">
-  Book Title:<br>
-  <input type="text" name="booktitle" value="">
-  <br>
-  Author:<br>
-  <input type="text" name="bookauthor" value="">
-  <br>
-  Price:<br>
-  <input type="text" name="bookprice" value="">
-  <br><br>
-  <input type="submit" value="Submit">
-</form>
+	<form name="book_form" method="post" action="insert">
+	<caption><h2>New Book Form</h2></caption>
+	  <p><label>Title:</label>
+	  <input type="text" name="booktitle" /></p>
+	  <p><label>Author:</label>
+	  <input type="text" name="bookauthor" /></p>
+	  <p><label>Price:</label>
+	  <input type="text" name="bookprice" /></p>
+	  <p><input type="submit" value="Submit"></p>
+	</form>
+	</div>
 </body>
 </html>
