@@ -19,14 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private BookDAO bookDAO;
-    
+
     /**
      * @see HttpServlet#HttpServlet()
      */
-    
+
     public void init() {
     		bookDAO = new BookDAO();
-    		
+
     		try {
 			bookDAO.connect();
 		} catch (SQLException e) {
@@ -40,7 +40,7 @@ public class ControllerServlet extends HttpServlet {
 			e.printStackTrace();
 		}
     }
-    
+
     public ControllerServlet() {
         super();
     }
@@ -48,15 +48,15 @@ public class ControllerServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException  {
 		String action = request.getServletPath();
 		String info = request.getPathInfo();
 		PrintWriter output = response.getWriter();
 		output.println("action = " + action + ", info = " + info);
-		
-		
-		
+
+
+
 		try {
 			if (info.equals("/new")) {
 				addBook(request, response);
@@ -71,35 +71,34 @@ public class ControllerServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	private void listBooks(HttpServletRequest request, HttpServletResponse response) 
+	private void listBooks(HttpServletRequest request, HttpServletResponse response)
 			throws ClassNotFoundException, SQLException, ServletException, IOException {
 		ArrayList<Book> bookList = bookDAO.listAllBooks();
-		
+
 		request.setAttribute("books", bookList);
 		//Missing leading forward slash caused infinite loop issues with the * wildcard in web.xml
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookList.jsp");
 		dispatcher.forward(request, response);
 	}
-	
-	private void addBook(HttpServletRequest request, HttpServletResponse response) 
+
+	private void addBook(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookForm.jsp");
 		dispatcher.forward(request, response);
 	}
-	
-	private void insertBook(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException, SQLException {
+
+	private void insertBook(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, ClassNotFoundException, SQLException {
 		String title = request.getParameter("booktitle");
 		String author = request.getParameter("bookauthor");
 		String priceString = request.getParameter("bookprice");
-		
+
 		Book newBook = new Book(title, author, Float.parseFloat(priceString));
-		
+
 		bookDAO.insertBook(newBook);
-		
 		response.sendRedirect("list");
 	}
 
@@ -111,7 +110,7 @@ public class ControllerServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.println("This is the doPost() method!");
 		doGet(request, response);
-		
+
 	}
 
 }

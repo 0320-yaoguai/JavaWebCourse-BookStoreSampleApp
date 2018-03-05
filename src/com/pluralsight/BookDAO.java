@@ -13,7 +13,7 @@ public class BookDAO {
 	private String jdbcUsername = "root";
 	private String jdbcPassword = "";
 	private Connection jdbcConnection;
-	
+
 	public void connect() throws SQLException {
 		if (jdbcConnection == null || jdbcConnection.isClosed()) {
 			try {
@@ -25,56 +25,56 @@ public class BookDAO {
 			}
 		}
 	}
-	
+
 	public void disconnect() throws SQLException {
 		if (jdbcConnection != null || !jdbcConnection.isClosed()) {
 			jdbcConnection.close();
 		}
 	}
-	
+
 	public ArrayList<Book> listAllBooks() throws SQLException {
 		ArrayList<Book> bookList = new ArrayList<>();
-		
+
 		connect();
-		
+
 		Statement statement = jdbcConnection.createStatement();
 		ResultSet resultSet = statement.executeQuery("SELECT * FROM book;");
-		
+
 		while (resultSet.next()) {
 			String title = resultSet.getString("title");
 			String author = resultSet.getString("author");
 			float price = resultSet.getFloat("price");
-			
+
 			Book book = new Book(title, author, price);
 			bookList.add(book);
 		}
-		
+
 		resultSet.close();
 		statement.close();
 		disconnect();
-		
+
 		return bookList;
 	}
-	
+
 	public boolean insertBook(Book book) throws SQLException {
 		connect();
 		String sql = "INSERT INTO book (title, author, price) VALUES (?, ?, ?);";
-		
+
 		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
 		statement.setString(1, book.getTitle());
 		statement.setString(2, book.getAuthor());
 		statement.setFloat(3, book.getPrice());
-		
+
 		boolean rowInserted = statement.executeUpdate() > 0;
-		
+
 		statement.close();
 		disconnect();
-		
+
 		return rowInserted;
 	}
-	
-	
-	
-	
+
+
+
+
 
 }
