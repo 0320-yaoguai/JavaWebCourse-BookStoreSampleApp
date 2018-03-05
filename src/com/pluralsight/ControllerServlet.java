@@ -56,12 +56,15 @@ public class ControllerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException  {
 		String action = request.getServletPath();
+		String info = request.getPathInfo();
+		PrintWriter output = response.getWriter();
+		//output.println("action = " + action + ", info = " + info);
 		
 		try {
-			if (action.equals("/new")) {
+			if (info.equals("/new")) {
 				addBook(request, response);
 			}
-			else if (action.equals("/insert")) {
+			else if (info.equals("/insert")) {
 				insertBook(request, response);
 			}
 			else {
@@ -78,13 +81,13 @@ public class ControllerServlet extends HttpServlet {
 		ArrayList<Book> books_list = bookDAO.listAllBooks();
 		
 		request.setAttribute("books", books_list);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BookList.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookList.jsp");
 		dispatcher.forward(request, response);
 	}
 	
 	private void addBook(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BookForm.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookForm.jsp");
 		dispatcher.forward(request, response);
 	}
 	

@@ -6,6 +6,7 @@
 <html>
 <head>
     <title>Book Store</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <%
 	ArrayList<Book> books = 
@@ -13,27 +14,29 @@
 %>
 
 <body>
-    <center>
-        <h1><a href="/BookStore/list">Book Store</a></h1>
-        <h2><a href="/BookStore/new">Add New Book</a></h2>
-    </center>
-    <div align="center">
-        <table border="1" cellpadding="5">
-            <caption><h2>List of Books</h2></caption>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Price</th>
-            </tr>
- 			
- 			<c:forEach items="${books}" var="item">
-                <tr>
-                    <td> ${item.getTitle()  }  </td>
-                    <td> ${item.getAuthor() } </td>
-                    <td> ${item.getPrice()  } </td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>   
+    <div class="container">
+	    <div class="links">
+	        <h1><a href="list">Book Store</a></h1>
+	        <h2><a href="new">Add New Book</a></h2>
+	    </div>
+	    <div class="booktable">
+	        <table border="1" cellpadding="5">
+	            <caption><h2>List of Books</h2></caption>
+	            <tr>
+	                <th>Title</th>
+	                <th>Author</th>
+	                <th>Price</th>
+	            </tr>
+
+	 			<c:forEach items="${books}" var="item">
+	                <tr>
+	                    <td> ${ item.getTitle() } </td>
+	                    <td> ${ item.getAuthor() } </td>
+	                    <td> ${ item.getPrice() } </td>
+	                </tr>
+	            </c:forEach>
+	        </table>
+	    </div>
+    </div>
 </body>
 </html>

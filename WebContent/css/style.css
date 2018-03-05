@@ -1,0 +1,31 @@
+
+.container {
+		text-align: center;
+		margin: 0 auto;
+		font-family: "Open Sans", Open Sans, "Verdana", Verdana, Arial, sans;
+		}
+		a:link {
+    		text-decoration: none;
+    		color: green;
+		}
+		a:hover {
+    		text-decoration: underline;
+		}
+		.booktable table {
+		width: 75%;
+		margin: 0 auto;
+		}
+		table, td, th {    
+	    border: 1px solid #ddd;
+	    text-align: left;
+		}
+		table {
+	    border-collapse: collapse;
+		}
+		th, td {
+    		padding: 15px;
+		}
+		form {
+		margin: 40px;
+		border: 1px solid #ddd;
+		}
