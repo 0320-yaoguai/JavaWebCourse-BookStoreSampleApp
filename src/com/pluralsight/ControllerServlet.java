@@ -26,18 +26,8 @@ public class ControllerServlet extends HttpServlet {
     
     public void init() {
     		bookDAO = new BookDAO();
-    		try {
-				bookDAO.connect();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-    		try {
-				bookDAO.disconnect();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+    		bookDAO.connect();
+		bookDAO.disconnect();
     }
     
     public ControllerServlet() {
